@@ -22,3 +22,8 @@
 
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
+
+
+## Ссылки на сайт, размещенный на Яндекс.Облаке:
+* IP 51.250.16.206
+* Backend https://api.dmitryzhur-movies.nomoredomains.icu/
