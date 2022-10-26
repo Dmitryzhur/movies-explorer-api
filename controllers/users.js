@@ -43,8 +43,8 @@ const login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : 'secret-code', { expiresIn: '7d' });
       res
         .cookie('access_token', token, {
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: false,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: false,
         })
         .send({ message: 'Аутентификация прошла успешно' });
     })
@@ -65,6 +65,8 @@ const updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequest('Переданы некорректные данные при обновлении данных'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь с данным email уже существует'));
       } else {
         next(err);
       }

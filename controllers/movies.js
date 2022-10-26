@@ -4,42 +4,14 @@ const BadRequest = require('../errors/BadRequest');
 const Forbidden = require('../errors/Forbidden');
 const NotFound = require('../errors/NotFound');
 
-const getMovie = (req, res, next) => {
-  Movie.find({})
+const getUsersMovies = (req, res, next) => {
+  Movie.find({ owner: req.user._id })
     .then((movies) => res.send(movies))
     .catch(next);
 };
 
 const createMovie = (req, res, next) => {
-  const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    thumbnail,
-    nameRU,
-    nameEN,
-    movieId,
-    owner = req.user._id,
-  } = req.body;
-
-  Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    thumbnail,
-    nameRU,
-    nameEN,
-    movieId,
-    owner,
-  })
+  Movie.create({ ...req.body, owner: req.user._id })
     .then((movie) => {
       res.send(movie);
     })
@@ -75,5 +47,5 @@ const deleteMovie = (req, res, next) => {
 };
 
 module.exports = {
-  getMovie, createMovie, deleteMovie,
+  getUsersMovies, createMovie, deleteMovie,
 };
